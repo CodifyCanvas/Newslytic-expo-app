@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.radial-center-gradient-bg-light {
+  background: radial-gradient(circle at top, #f5fbff 20%,#e5f3fd 100%);
+}
+.radial-center-gradient-bg-dark {
+  background: radial-gradient(circle at top, #0f172a 20%, #020617 100%);
+}
+
+.bg-ghost-white {
+  background-color: #F8F8FF;
+}

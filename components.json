@@ -1,0 +1,6 @@
+{
+  "aliases": {
+    "components": "/components/ui/reactnativereusables",
+    "lib": "~/lib"
+  }
+}

@@ -1,0 +1,139 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+
+import TileNewsCard from '@/components/MyComponents/HomeScreen/TileNewsCard';
+import { Input } from '@/components/ui/reactnativereusables/ui/input';
+import { useGuardianNews } from '@/hooks/useGuardianNews';
+import { NewsArticle } from '@/types/NewsArticle';
+
+const Search = () => {
+  // Local input state (controlled input field)
+  const [inputValue, setInputValue] = useState('');
+  
+  // Search term sent to API (debounced version of input)
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
+
+  // 🔁 Debounce search input to avoid API overload
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setPage(1);               
+      setHasReachedEnd(false); 
+      setSearchQuery(inputValue); 
+    }, 400); // Debounce time
+
+    return () => clearTimeout(timeout);
+  }, [inputValue]);
+
+  // 🔍 Fetch news data based on current query & page
+  const { data, loading, error, currentPage, totalPages, totalResults } =
+    useGuardianNews<NewsArticle[]>({
+      mode: searchQuery ? 'search' : 'latest',
+      page,
+      pageSize: 10,
+      query: searchQuery,
+      thumbnail: true,
+    });
+
+  // 🔑 Unique key for FlatList items
+  const keyExtractor = useCallback(
+    (item: NewsArticle, index: number) => `${item.id}-${index}`,
+    []
+  );
+
+  // 📄 Render each news card
+  const renderItem = useCallback(
+    ({ item }: { item: NewsArticle }) => <TileNewsCard data={item} />,
+    []
+  );
+
+  // 📥 Load more on scroll (infinite scroll)
+  const handleLoadMore = useCallback(() => {
+    if (!loading && currentPage < totalPages) {
+      setPage((prev) => prev + 1); // Go to next page
+    } else if (currentPage >= totalPages && !hasReachedEnd) {
+      setHasReachedEnd(true); // Mark list as completed
+    }
+  }, [loading, currentPage, totalPages, hasReachedEnd]);
+
+  // ⬇ Footer: loading indicator or "no more articles"
+  const listFooter = useMemo(() => {
+    if (loading) {
+      return (
+        <View className="py-4">
+          <ActivityIndicator color="#2a9df4" />
+        </View>
+      );
+    }
+    if (hasReachedEnd) {
+      return (
+        <Text className="text-center text-base text-gray-400 pt-4">
+          No more articles
+        </Text>
+      );
+    }
+    return null;
+  }, [loading, hasReachedEnd]);
+
+  // 🔄 Input text change handler
+  const onChangeText = (text: string) => {
+    setInputValue(text);
+  };
+
+  // ❌ Render error UI if API fails
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center radial-center-gradient-bg-dark px-4">
+        <Text className="text-red-500 text-center">
+          {error.message || 'Error fetching article'}
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+  <View className="radial-center-gradient-bg-dark flex-1">
+    <View className="px-5 pt-2 pb-0 bg-transparent">
+      <Input
+        placeholder="Search..."
+        value={inputValue}
+        onChangeText={onChangeText}
+        className="text-white bg-gray-800 rounded-lg border-none outline-none focus:border-b focus:border-blue-500 focus:ring-0 p-2 mb-4"
+      />
+    </View>
+
+    <View className="px-5 mb-2">
+  {searchQuery !== '' && totalResults !== undefined && (
+    <Text className="text-gray-300 text-sm">Total Results: {totalResults}</Text>
+  )}
+</View>
+    
+    <FlatList
+      data={data}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      ItemSeparatorComponent={() => <View className="h-5" />}
+      ListFooterComponent={listFooter}
+      contentContainerStyle={{
+        paddingHorizontal: 12,
+        paddingBottom: 130,
+        flexGrow: 1,
+      }}
+      className="mb-10"
+    />
+  </View>
+);
+
+};
+
+export default Search;

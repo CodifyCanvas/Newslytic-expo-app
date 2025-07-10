@@ -1,75 +1,112 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import BreakingNewsCard from '@/components/MyComponents/HomeScreen/BreakingNewsCard';
+import TileNewsCard from '@/components/MyComponents/HomeScreen/TileNewsCard';
+import { BreakingNewsSkeleton } from '@/components/MyComponents/Skeletons';
+import { useGuardianNews } from '@/hooks/useGuardianNews';
+import { NewsArticle } from '@/types/NewsArticle';
+import React, { useCallback, useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
 export default function HomeScreen() {
+  const [page, setPage] = useState(2);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
+
+  // Breaking News (static, one-time fetch)
+  const {
+    data: breakingNews,
+    loading: breakingLoading,
+    error: breakingError,
+  } = useGuardianNews<NewsArticle[]>({ mode: 'latest', pageSize: 5, thumbnail: true });
+
+  // Recommendations (paginated)
+  const {
+    data: recommendationData,
+    loading: recommendationLoading,
+    error: recommendationError,
+    currentPage,
+    totalPages,
+  } = useGuardianNews<NewsArticle[]>({
+    mode: 'recommendation',
+    page,
+    pageSize: 10,
+    thumbnail: true,
+  });
+
+  // FlatList expects a valid array
+  const articles = recommendationData ?? [];
+
+  const handleLoadMore = useCallback(() => {
+    if (!recommendationLoading && currentPage < totalPages) {
+      setPage((prev) => prev + 1);
+    } else if (currentPage >= totalPages && !hasReachedEnd) {
+      setHasReachedEnd(true);
+    }
+  }, [recommendationLoading, currentPage, totalPages, hasReachedEnd]);
+
+  const keyExtractor = useCallback(
+    (item: NewsArticle, index: number) => `${item.id}-${index}`,
+    []
+  );
+
+  const listFooter = useMemo(() => {
+    if (recommendationLoading && page > 1) {
+      return (
+        <View className="py-4">
+          <ActivityIndicator color="#2a9df4" />
+        </View>
+      );
+    }
+    if (hasReachedEnd) {
+      return (
+        <Text className="text-center text-base text-gray-400 pt-4">
+          No more articles
+        </Text>
+      );
+    }
+    return null;
+  }, [recommendationLoading, hasReachedEnd, page]);
+
+  const renderHeader = () => (
+    <>
+      <Text className="text-white text-2xl font-bold">Breaking News</Text>
+
+      {breakingLoading ? (
+        <BreakingNewsSkeleton />
+      ) : breakingError ? (
+        <Text className="text-red-400 text-sm font-bold">
+          Error: {breakingError.message}
+        </Text>
+      ) : (
+        <BreakingNewsCard data={breakingNews} />
+      )}
+
+      <Text className="text-white text-2xl font-bold mt-2 mb-2">Recommendation</Text>
+
+      {recommendationError && (
+        <Text className="text-red-400 text-sm font-bold">
+          Error: {recommendationError.message}
+        </Text>
+      )}
+    </>
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View className="flex-1 min-h-screen radial-center-gradient-bg-dark">
+      <FlatList
+        data={articles}
+        keyExtractor={keyExtractor}
+        renderItem={({ item }) => <TileNewsCard data={item} />}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={listFooter}
+        ItemSeparatorComponent={() => <View className="h-6" />}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        contentContainerStyle={{
+          paddingHorizontal: 12,
+          paddingTop: 12,
+          paddingBottom: 130,
+          flexGrow: 1,
+        }}
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
