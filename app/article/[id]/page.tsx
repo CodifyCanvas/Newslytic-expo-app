@@ -1,11 +1,10 @@
 // app/article/[id]/page.tsx
+import BookmarkButton from '@/components/MyComponents/BookmarkButton';
 import { ArticleSkeleton } from '@/components/MyComponents/Skeletons';
-import { Images } from '@/constants';
+import { Icons, Images } from '@/constants';
 import { useGuardianNews } from '@/hooks/useGuardianNews';
 import { stripHtml } from '@/lib/utils';
 import { NewsArticle } from '@/types/NewsArticle';
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { formatDistanceToNow } from 'date-fns';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -149,22 +148,17 @@ const ArticlePage = () => {
   return (
     <ScrollView className="flex-1 bg-black relative">
       {/* Header Icons */}
-      <View className="absolute px-4 w-full flex flex-row justify-between top-4 z-30">
+      <View className="absolute mt-5 px-5 w-full flex flex-row justify-between top-4 z-30">
         <TouchableOpacity
-          className="bg-white/75 p-2 rounded-full"
+          className="bg-white/20 backdrop-blur-md isolate p-3 rounded-full"
           onPress={router.back}
         >
-          <Ionicons name="chevron-back-outline" size={20} color="blue" />
+          {/* <Ionicons name="chevron-back-outline" size={20} color="white" /> */}
+          <Image source={Icons.activeBack} style={{height:20, width: 20}} />
         </TouchableOpacity>
 
-        <View className="flex flex-row items-center gap-2">
-          <TouchableOpacity className="p-2 bg-white/75 rounded-full">
-            <Ionicons name="bookmark-outline" size={20} color="blue" />
-          </TouchableOpacity>
-          <TouchableOpacity className="p-2 bg-white/75 rounded-full">
-            <Feather name="menu" size={20} color="blue" />
-          </TouchableOpacity>
-        </View>
+        <BookmarkButton article={article} />
+        
       </View>
 
       {HeaderImage}

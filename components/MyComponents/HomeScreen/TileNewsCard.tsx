@@ -16,7 +16,8 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      className="flex-row w-[95%] mx-auto overflow-hidden bg-transparent items-center space-x-1"
+      // className="flex-row w-[95%] mx-auto overflow-hidden bg-transparent items-center space-x-1"
+      className="flex flex-row w-[95%] mx-auto bg-transparent items-center space-x-1"
       onPress={() => {
         router.push({
           pathname: '/article/[id]/page',
@@ -25,7 +26,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
       }}
     >
       {/* Image Section */}
-      <View className="h-24 w-24 rounded-lg overflow-hidden bg-gray-200 justify-center items-center">
+      <View style={{ boxShadow: '0px 5px 7px rgba(0,0,0,0.1)', elevation: 4 }} className="h-28 w-28 rounded-lg overflow-hidden bg-gray-200 justify-center items-center">
         <Image
           source={
             fields?.thumbnail
@@ -39,9 +40,9 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
 
 
       {/* Text Section */}
-      <View className="flex-1 flex gap-2 px-2 py-1 justify-between">
+      <View className="flex-1 flex gap-2 px-2 pt-0 justify-between">
         <Text
-          className="text-blue-500 text-sm font-medium"
+          className="text-neutral-500 text-base font-medium"
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -49,7 +50,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
         </Text>
 
         <Text
-          className="text-white text-lg font-semibold"
+          className="text-neutral-800 text-xl font-semibold"
           numberOfLines={2}
           ellipsizeMode="tail"
         >
@@ -57,7 +58,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
         </Text>
 
         <Text
-          className="text-gray-300 text-sm font-medium"
+          className="text-neutral-500 text-base font-normal"
           numberOfLines={1}
           ellipsizeMode="tail"
         >

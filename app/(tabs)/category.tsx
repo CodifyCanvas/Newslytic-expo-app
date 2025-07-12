@@ -1,10 +1,10 @@
 import { CategoryPageSkeleton } from '@/components/MyComponents/Skeletons';
-import { Input } from '@/components/ui/reactnativereusables/ui/input';
 import { useGuardianNews } from '@/hooks/useGuardianNews';
 import { NewsSection } from '@/types/NewsArticle';
+import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function Category() {
   const [value, setValue] = React.useState('');
@@ -19,11 +19,11 @@ export default function Category() {
   }
 
   if (error) {
-      return (
-        <View className="flex-1 justify-center items-center radial-center-gradient-bg-dark px-4">
-          <Text className="text-red-500 text-center">{error.message || 'Error fetching article'}</Text>
-        </View>
-      );
+    return (
+      <View className="flex-1 justify-center items-center bg-light px-4">
+        <Text className="text-red-500 text-center">{error.message || 'Error fetching article'}</Text>
+      </View>
+    );
   }
 
   const onChangeText = (text: string) => {
@@ -38,38 +38,54 @@ export default function Category() {
     : data;
 
   return (
-    <ScrollView className='px-5 py-2 radial-center-gradient-bg-dark mb-20'>
+    <ScrollView className='px-5 py-2 bg-light mb-20'>
       <View>
-        <Input
-          placeholder='Search Category...'
-          value={value}
-          onChangeText={onChangeText}
-          aria-labelledby='inputLabel'
-          aria-errormessage='inputError'
-          className='text-white bg-gray-800 rounded-lg border-none outline-none focus:border-b focus:border-blue-500 focus:ring-0 p-2 mb-4'
-        />
+        
+        <View className='flex flex-row items-center justify-between rounded-full bg-icon-light px-4 mb-4'>
+  <TextInput
+    placeholder='Search Category'
+    value={value}
+    onChangeText={onChangeText}
+    placeholderTextColor="#737373"
+    className='text-neutral-700 text-xl flex-1 mr-2'
+    style={{
+      paddingVertical: 10, // vertical centering
+    }}
+  />
+
+  {/* Feather Icon - positioned inline, vertically centered */}
+  {value !== '' && (
+            <TouchableOpacity onPress={() => setValue('')}>
+              <Feather name="x-circle" size={17} color="gray" />
+            </TouchableOpacity>
+  )}
+</View>
       </View>
-      
-      <Text className='text-gray-300 text-sm mb-2'>Total Results: {filteredData.length}</Text>
+
+      <Text className='text-neutral-500 text-base mb-2'>Total Results: {filteredData.length}</Text>
 
       <View className='flex flex-row flex-wrap gap-2'>
         {filteredData.map((category, index) => (
-          <View key={index} className='flex mt-2 flex-row items-center gap-2 flex-wrap'>
-            {/* <Text className='text-gray-300 uppercase mt-1 text-sm'>{category.webTitle}</Text> */}
-              <TouchableOpacity
-                  className="justify-center items-center border flex flex-row border-blue-500 w-fit rounded-full py-1 px-3"
-                  onPress={() => {
-                    router.push({
-                      pathname: '/category/[category]/page',
-                      params: { category: category.id },
-                    });
-                  }}
-                >
-                  <Text className="text-blue-500 text-lg">• {category.webTitle}</Text>
-                </TouchableOpacity>
-            {/* </View> */}
+          <View
+            key={index}
+            className="flex flex-row flex-wrap items-center gap-2 mt-2"
+          >
+            <TouchableOpacity
+              className="justify-center items-center flex-row bg-tag-light rounded-full py-1 px-3"
+              style={{ backgroundColor: '#2b7fff' }}
+              onPress={() => {
+                router.push({
+                  pathname: '/category/[category]/page',
+                  params: { category: category.id },
+                });
+              }}
+            >
+              <Text className="text-white text-lg text-center">{category.webTitle}</Text>
+            </TouchableOpacity>
           </View>
         ))}
+
+
       </View>
     </ScrollView>
   );

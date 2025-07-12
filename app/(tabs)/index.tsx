@@ -67,7 +67,7 @@ export default function HomeScreen() {
 
   const renderHeader = () => (
     <>
-      <Text className="text-white text-2xl font-bold">Breaking News</Text>
+      <Text className="text-neutral-800 text-2xl font-semibold">Breaking News</Text>
 
       {breakingLoading ? (
         <BreakingNewsSkeleton />
@@ -79,7 +79,7 @@ export default function HomeScreen() {
         <BreakingNewsCard data={breakingNews} />
       )}
 
-      <Text className="text-white text-2xl font-bold mt-2 mb-2">Recommendation</Text>
+      <Text className="text-neutral-800 text-2xl font-semibold mt-2 mb-2">Recommendation</Text>
 
       {recommendationError && (
         <Text className="text-red-400 text-sm font-bold">
@@ -90,7 +90,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <View className="flex-1 min-h-screen radial-center-gradient-bg-dark">
+    <View className="flex-1 min-h-screen bg-light">
       <FlatList
         data={articles}
         keyExtractor={keyExtractor}

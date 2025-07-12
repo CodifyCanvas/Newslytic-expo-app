@@ -13,7 +13,8 @@ export const BreakingNewsSkeleton = () => {
     <View className="flex-1 items-center justify-center mt-4">
       <Carousel
         loop
-        width={width * 0.85}
+        autoPlay
+        width={width}
         height={220}
         scrollAnimationDuration={3000}
         data={placeholderData}
@@ -24,17 +25,17 @@ export const BreakingNewsSkeleton = () => {
           parallaxAdjacentItemScale: 0.8,
         }}
         renderItem={() => (
-          <View className="w-full h-full mx-2 rounded-lg overflow-hidden relative bg-gray-800">
-            <View className="absolute w-full h-full bg-gray-700/40" />
+          <View className="w-full h-full mx-2 rounded-lg overflow-hidden relative bg-neutral-100/20">
+            <View className="absolute w-full h-full bg-neutral-200" />
 
-            <View className="absolute bottom-0 left-0 right-0 p-4 h-full justify-end bg-gradient-to-b from-slate-700/50 to-slate-900/50 space-y-2">
+            <View className="absolute bottom-0 left-0 right-0 p-4 h-full justify-end bg-gradient-to-b from-neutral-700/50 to-neutral-900/50 space-y-2">
               <View className="absolute top-4 left-4 bg-transparent rounded-full px-3 py-1">
-                <View className="w-16 h-4 animate-pulse bg-gray-500 rounded-full" />
+                <View className="w-16 h-5 animate-pulse bg-neutral-400/40 rounded-full" />
               </View>
 
-              <View className="w-24 h-3 animate-pulse bg-gray-500 rounded-full" />
-              <View className="w-3/4 h-5 animate-pulse bg-gray-600 rounded-md" />
-              <View className="w-2/3 h-5 animate-pulse bg-gray-600 rounded-md" />
+              <View className="w-24 h-5 animate-pulse bg-neutral-400/40 mb-1 rounded-full" />
+              <View className="w-3/4 h-7 animate-pulse bg-neutral-400/60 mb-1 rounded-md" />
+              <View className="w-2/3 h-5 animate-pulse bg-neutral-400/40 mb-1 rounded-md" />
             </View>
           </View>
         )}
@@ -110,20 +111,20 @@ export const ArticleSkeleton = () => {
 export const CategoryPageSkeleton = ({ count = 5 }: { count?: number }) => {
   return (
     <View className="w-full min-h-screen overflow-y-hidden radial-center-gradient-bg-dark">
-      <View className="w-[90%] mt-4 mx-auto h-10 rounded animate-pulse bg-gray-500/40 mb-4" />
+      <View className="w-[90%] mt-4 mx-auto h-10 rounded-full animate-pulse bg-neutral-500/40 mb-4" />
       {Array.from({ length: count }).map((_, index) => (
         <View
           key={index}
           className="flex-col flex gap-2 animate-pulse p-2  rounded-lg items-start w-[95%] mx-auto mb-4"
         >
           {/* Image placeholder */}
-          <View className="w-16 h-4  bg-gray-500/30 rounded-lg mb-2" />
+          <View className="w-16 h-4  bg-neutral-500/30 rounded-lg mb-2" />
 
           {/* Text placeholders */}
           <View className="flex-1 flex-row items-center justify-between py-1 gap-2">
-            <View className="w-24 h-5 rounded-full bg-gray-500/40" />
-            <View className="w-24 h-5 rounded-full bg-gray-500/40" />
-            <View className="w-24 h-5 rounded-full bg-gray-500/40" />
+            <View className="w-24 h-5 rounded-full bg-neutral-500/40" />
+            <View className="w-24 h-5 rounded-full bg-neutral-500/40" />
+            <View className="w-24 h-5 rounded-full bg-neutral-500/40" />
           </View>
         </View>
       ))}

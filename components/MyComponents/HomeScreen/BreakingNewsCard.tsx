@@ -20,7 +20,7 @@ const BreakingNewsCard: React.FC<BreakingNewsCardProps> = ({ data }) => {
             <Carousel
                 loop
                 autoPlay
-                width={width * 0.85} // Make it slightly smaller than screen width
+                width={width}
                 height={220}
                 scrollAnimationDuration={5000}
                 data={data}
@@ -33,7 +33,11 @@ const BreakingNewsCard: React.FC<BreakingNewsCardProps> = ({ data }) => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        className="w-full h-full mx-2 rounded-lg overflow-hidden relative"
+                        className="w-full h-full mx-2 rounded-3xl overflow-hidden relative"
+                        style={{
+                            boxShadow: '0px 5px 6px rgba(0,0,0,0.2)',
+                            elevation: 4,
+                        }}
                         onPress={() => {
                             const id = item.id
                             router.push({
@@ -55,11 +59,11 @@ const BreakingNewsCard: React.FC<BreakingNewsCardProps> = ({ data }) => {
                             colors={['transparent', 'rgba(0, 0, 0, 0.7)']}
                             style={{ position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, justifyContent: 'flex-end', padding: 16 }}
                         >
-                            <Text className=" absolute top-4 left-4 text-white text-sm font-medium bg-blue-500 rounded-full shadow-black/30 shadow px-3 py-1" numberOfLines={1} ellipsizeMode="tail">
+                            <Text className=" absolute top-4 left-4 text-white text-base font-medium bg-blue-500 rounded-full shadow-black/30 shadow px-3 py-1" numberOfLines={1} ellipsizeMode="tail">
                                 {item.sectionName}
                             </Text>
 
-                            <Text className="text-gray-300 text-sm font-medium" numberOfLines={1} ellipsizeMode="tail">
+                            <Text className="text-neutral-200 text-base font-medium" numberOfLines={1} ellipsizeMode="tail">
                                 {formatDistanceToNow(new Date(item.webPublicationDate), { addSuffix: true })}
                             </Text>
 

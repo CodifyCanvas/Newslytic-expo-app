@@ -9,6 +9,14 @@
   background: radial-gradient(circle at top, #0f172a 20%, #020617 100%);
 }
 
-.bg-ghost-white {
-  background-color: #F8F8FF;
+.bg-light {
+  background-color: #F8F8FF; /* Ghost White */
+}
+
+.bg-icon-light {
+  @apply bg-neutral-200/65
+}
+
+.bg-tag-light {
+  background-color: oklch(62.3% 0.214 259.815);
 }

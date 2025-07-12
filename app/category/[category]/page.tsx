@@ -95,7 +95,7 @@ const ViewCategory = () => {
 
   if (error) {
     return (
-      <View className="flex-1 justify-center items-center radial-center-gradient-bg-dark px-4">
+      <View className="flex-1 justify-center items-center bg-light px-4">
         <Text className="text-red-500 text-center">
           {error.message || 'Error fetching article'}
         </Text>
@@ -104,7 +104,7 @@ const ViewCategory = () => {
   }
 
   return (
-    <View className="flex-1 min-h-screen radial-center-gradient-bg-dark">
+    <View className="flex-1 min-h-screen bg-light">
       <FlatList
         data={data}
         keyExtractor={keyExtractor}
