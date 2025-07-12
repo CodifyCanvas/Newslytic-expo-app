@@ -1,20 +1,23 @@
 
+import { initDB } from '@/lib/database';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'; // ✅ Add this
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import './global.css';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
-  
-//   useEffect(() => {
-//     initDB(); // Initialize the database when the app starts
-// }, []);
+
+  // Initialize SQLite DB on app start
+  useEffect(() => {
+    initDB();
+  }, []);
 
   if (!loaded) return null;
 

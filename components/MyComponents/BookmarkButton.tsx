@@ -3,7 +3,7 @@ import { addBookmark, isBookmarked, removeBookmark } from '@/lib/database/native
 import { NewsArticle } from '@/types/NewsArticle'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import React, { useEffect, useState } from 'react'
-import { Image, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, Image, TouchableOpacity } from 'react-native'
 
 const BookmarkButton = ({ article }: { article: NewsArticle }) => {
     const [isBookmarkedState, setIsBookmarkedState] = useState(false);
@@ -38,20 +38,19 @@ const BookmarkButton = ({ article }: { article: NewsArticle }) => {
     }
   }
 
-  if (loading) {
-    // optionally show nothing or a spinner while loading bookmark state
-    return null
-  }
-
-
 return (
     <TouchableOpacity
       onPress={toggleBookmark}
       className="p-3 bg-white/20 backdrop-blur-md isolate rounded-full"
+      disabled={loading}
     >
-      {isBookmarkedState
-        ? <Image source={Icons.activebookmark} style={{ height: 20, width: 20 }} />
-        : <Ionicons name="bookmark-outline" size={20} color="white" />}
+      {loading ? (
+        <ActivityIndicator size="small" className='text-white' />
+      ) : isBookmarkedState ? (
+        <Image source={Icons.activebookmark} style={{ height: 20, width: 20 }} />
+      ) : (
+        <Ionicons name="bookmark-outline" size={20} color="white" />
+      )}
     </TouchableOpacity>
   )
 }

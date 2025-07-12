@@ -14,7 +14,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#0f172a"
+        "backgroundColor": "#F8F8FF"
       },
       "edgeToEdgeEnabled": true
     },
@@ -31,7 +31,7 @@
           "image": "./assets/images/Newslytic_main_logo_tranparent.png",
           "imageWidth": 100,
           "resizeMode": "contain",
-          "backgroundColor": "#0f172a"
+          "backgroundColor": "#F8F8FF"
         }
       ],
       "expo-font",

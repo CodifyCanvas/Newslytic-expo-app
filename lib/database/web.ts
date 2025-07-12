@@ -1,29 +1,30 @@
-export interface BookmarkArticle {
-  id: string;
-  webTitle: string;
-  sectionName: string;
-  webPublicationDate: string;
-  thumbnail?: string;
-}
+import { type BookmarkArticle } from '@/types/NewsArticle';
+
+const warn = (method: string) =>
+  console.warn(`Web platform does not support SQLite: ${method}()`);
 
 export async function initDB(): Promise<void> {
-  console.warn('Web platform does not support SQLite.');
+  warn('initDB');
 }
 
 export async function addBookmark(): Promise<void> {
-  console.warn('Web platform does not support SQLite.');
+  warn('addBookmark');
 }
 
 export async function getAllBookmarks(): Promise<BookmarkArticle[]> {
-  console.warn('Web platform does not support SQLite.');
+  warn('getAllBookmarks');
   return [];
 }
 
 export async function isBookmarked(): Promise<boolean> {
-  console.warn('Web platform does not support SQLite.');
+  warn('isBookmarked');
   return false;
 }
 
 export async function removeBookmark(): Promise<void> {
-  console.warn('Web platform does not support SQLite.');
+  warn('removeBookmark');
+}
+
+export async function deleteDatabase(): Promise<void> {
+  warn('deleteDatabase');
 }
