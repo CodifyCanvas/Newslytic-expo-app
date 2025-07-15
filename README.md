@@ -1,50 +1,102 @@
-# Welcome to your Expo app 👋
+<div align="center"> <img src="./assets/images/Newslytic_main_logo_tranparent.png" alt="Newslytics Logo" width="180" /> </div> <h1 align="center">📰 Newslytics</h1> <div align="center"> <em>A beautifully crafted React Native news app powered by the Guardian API.</em> </div>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<br />
 
-## Get started
+Newslytics is a sleek, modern news application built using React Native (Expo). It brings users up-to-date global news powered by the Guardian News API, complete with a smooth tabbed interface, category filtering, search functionality, and offline bookmark support via SQLite.
 
-1. Install dependencies
+Thoughtfully developed with performance, modularity, and user experience in mind—Newslytics is your daily companion for staying informed.
 
-   ```bash
-   npm install
-   ```
+## 📱 Features Overview
 
-2. Start the app
+<div align="center"> <img src="./assets/images/screens/home-screen.jpeg" alt="Home Screen" width="200" style="border-radius:7px;"/> <img src="./assets/images/screens/category-tab-screen.jpeg" alt="Category Tab" width="200" style="border-radius:7px;" /> <img src="./assets/images/screens/search-screen.jpeg" alt="Search Screen" width="200" style="border-radius:7px;" /> <img src="./assets/images/screens/bookmarks-screen.jpeg" alt="Bookmarks Screen" width="200" style="border-radius:7px;" /> </div> <br /> <div align="center"> <img src="./assets/images/screens/article-screen.jpeg" alt="Article Screen" width="200" style="border-radius:7px;"/> <img src="./assets/images/screens/category-page-screen.jpeg" alt="Category Page" width="200" style="border-radius:7px;" /> </div>
 
-   ```bash
-   npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+### 🔸 Home Tab
+- Displays **breaking news** in large featured cards.
+- Below that, a **FlatList** shows the latest news in **tile-style cards**.
+- All content fetched dynamically from the Guardian News API.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🔸 Categories Tab
+- Lists news categories such as **Sports**, **Business**, and more.
+- Selecting a category opens a **filtered feed** for that topic.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🔸 Search Tab
+- Provides a global search functionality.
+- Users can search for any news topic from the Guardian API.
+- Infinite scrolling results in a clean tile layout.
 
-## Get a fresh project
+### 🔸 Bookmarks Tab
+- Displays all articles **bookmarked by the user**.
+- Uses local **SQLite** database to store and manage bookmarks offline.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
+## 🗂️ Additional Screens
+
+### 📂 Category Page
+- Opened via the **Categories Tab**.
+- Displays news specific to the **selected category**.
+
+### 📰 Article View Page
+- Opens when an article is selected from any screen.
+- Shows full article content using its **Guardian ID**.
+- Includes a **bookmark toggle** for saving or removing articles.
+
+---
+
+### 🧰 Tech Stack
+
+- **React Native (Expo)**
+- **React Navigation** with Bottom Tabs
+- **SQLite (local DB)** for offline bookmark management
+- **Guardian News API** for real-time news
+- **Custom React Hook** to manage all API interactions
+- **Clean and professional UI** using modular, reusable components
+
+---
+
+### 📂 Project Structure (Simplified)
+
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+/app                         # App screens & routes
+│   ├── (tabs)/              # Tab screens: Home, Search, Categories, Bookmarks
+│   ├── article/[id]/        # Dynamic article detail page
+│   └── category/[category]/ # Dynamic category-based listing
 
-## Learn more
+/components/
+│   ├── MyComponents/        # App-specific components (cards, skeletons, etc.)
+│   └── ui/                  # Low-level shared UI components
 
-To learn more about developing your project with Expo, look at the following resources:
+/hooks/
+│   └── useGuardianNews.ts   # Custom hook for API calls
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+/lib/
+│   ├── database/            # SQLite logic
+│   └── utils.ts             # General utility functions
+│
+├── constants/               # Centralized constants (e.g., assets)
+├── types/                   # TypeScript interfaces & types
+├── assets/                  # Fonts, icons, images
+└── config & setup files     # Expo, TypeScript, nativewind, ESLint configs
 
-## Join the community
 
-Join our community of developers creating universal apps.
+```
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 🧠 How It Works
+
+- A **single custom hook** handles all communication with the Guardian API (search, latest news, category filtering, article details).
+- Bookmarks are handled through **SQLite**, providing offline persistence.
+- App uses **React Navigation Tabs** for easy UX and intuitive layout.
+
+---
+
+### 👨‍💻 Developed by
+
+**Shahzaib Awan**  
+Crafted with care, clean UI principles, and optimized for smooth performance and maintainability.
+
+---
+
+<div align="center"> <strong>Thanks for exploring Newslytics! 🚀</strong> </div>

@@ -2,7 +2,7 @@
 import { initDB } from '@/lib/database';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -14,6 +14,10 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
+  const pathname = usePathname();
+
+  const isArticlePage = pathname.startsWith('/article/');
+
   // Initialize SQLite DB on app start
   useEffect(() => {
     initDB();
@@ -24,15 +28,21 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: isArticlePage ? 'black' : '#F8F8FF',
+        }}
+      >
       <ThemeProvider value={DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="article/[id]/page" options={{ headerShown: false }} />
-          <Stack.Screen name="category/[category]/page" options={{ headerShown: true, headerBackTitle: 'back', headerTitleStyle: { fontSize: 25  , fontWeight: 'bold' }, headerStyle: { backgroundColor: '#F8F8FF',} }} />
+          <Stack.Screen name="category/[category]/page" options={{ headerShown: true, headerBackTitle: 'back', headerTitleStyle: { fontSize: 20  , fontWeight: 'bold' }, headerStyle: { backgroundColor: '#F8F8FF',} }} />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar style="light" backgroundColor='#000' />
+              <StatusBar style="dark" backgroundColor='#F8F8FF'  translucent={false}/>
+        
       </ThemeProvider>
       </SafeAreaView>
     </SafeAreaProvider>

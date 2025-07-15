@@ -100,8 +100,8 @@ const Search = () => {
   }
 
   return (
-    <View className="bg-light flex-1">
-      <View className="px-5 pt-2 pb-0 bg-transparent">
+    <View className="bg-light flex-1 py-4">
+      <View className="px-5 pb-0 bg-transparent">
 
         <View className='flex flex-row items-center justify-between rounded-full bg-icon-light px-4 mb-4'>
           <TextInput
@@ -146,6 +146,10 @@ const Search = () => {
           flexGrow: 1,
         }}
         className="mb-10"
+        removeClippedSubviews={true}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={11} 
       />
     </View>
   );

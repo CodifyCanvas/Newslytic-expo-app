@@ -31,13 +31,13 @@ export default function Category() {
   // Filter categories based on search input (case-insensitive)
   const filteredData = value.trim()
     ? data.filter(category =>
-        category.webTitle.toLowerCase().includes(value.toLowerCase())
-      )
+      category.webTitle.toLowerCase().includes(value.toLowerCase())
+    )
     : data;
 
   return (
-    <ScrollView className="px-5 py-2 bg-light mb-20">
-      <View>
+    <View style={{ flex: 1 }} className="bg-light pt-4">
+      <View className='px-5'>
         {/* Search bar */}
         <View className="flex flex-row items-center justify-between rounded-full bg-icon-light px-4 mb-4">
           <TextInput
@@ -55,31 +55,36 @@ export default function Category() {
             </TouchableOpacity>
           )}
         </View>
+
+        {/* Display number of results */}
+        <Text className="text-neutral-500 text-base mb-2">Total Results: {filteredData.length}</Text>
+
       </View>
 
-      {/* Display number of results */}
-      <Text className="text-neutral-500 text-base mb-2">Total Results: {filteredData.length}</Text>
 
-      {/* Categories list */}
-      <View className="flex flex-row flex-wrap gap-2">
-        {filteredData.map((category, index) => (
-          <View key={index} className="flex flex-row flex-wrap items-center gap-2 mt-2">
-            <TouchableOpacity
-              className="justify-center items-center flex-row bg-tag-light rounded-full py-1 px-3"
-              style={{ backgroundColor: '#2b7fff' }}
-              onPress={() => {
-                // Navigate to category page with category ID param
-                router.push({
-                  pathname: '/category/[category]/page',
-                  params: { category: category.id },
-                });
-              }}
-            >
-              <Text className="text-white text-lg text-center">{category.webTitle}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+      <ScrollView className="px-5 py-4 mb-10">
+        {/* Categories list */}
+        <View className="flex flex-row flex-wrap gap-2">
+          {filteredData.map((category, index) => (
+            <View key={index} className="flex flex-row flex-wrap items-center gap-2 mt-2">
+              <TouchableOpacity
+                className="justify-center items-center flex-row bg-tag-light rounded-full py-1 px-3"
+                style={{ backgroundColor: '#2b7fff' }}
+                onPress={() => {
+                  // Navigate to category page with category ID param
+                  router.push({
+                    pathname: '/category/[category]/page',
+                    params: { category: category.id },
+                  });
+                }}
+              >
+                <Text className="text-white text-lg text-center">{category.webTitle}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+        <View className='h-[60] w-full' />
+      </ScrollView>
+    </View>
   );
 }

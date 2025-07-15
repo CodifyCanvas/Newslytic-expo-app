@@ -15,6 +15,7 @@ import {
 import TileNewsCard from '@/components/MyComponents/HomeScreen/TileNewsCard';
 import { useGuardianNews } from '@/hooks/useGuardianNews';
 import { NewsArticle } from '@/types/NewsArticle';
+import { StatusBar } from 'expo-status-bar';
 
 const ViewCategory = () => {
   const { category } = useLocalSearchParams<{ category: string }>();
@@ -79,7 +80,6 @@ const ViewCategory = () => {
     navigation.setOptions({
       title: category.toString().toUpperCase(),
       headerBackTitleVisible: false, // still hides the left back label text
-      headerTitleStyle: { fontSize: 15  , fontWeight: 'semibold' },
     });
   }
 }, [category, navigation]);
@@ -105,6 +105,8 @@ const ViewCategory = () => {
 
   return (
     <View className="flex-1 min-h-screen bg-light">
+      <StatusBar style="dark" backgroundColor='#F8F8FF' />
+      
       <FlatList
         data={data}
         keyExtractor={keyExtractor}

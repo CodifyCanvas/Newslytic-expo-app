@@ -67,7 +67,7 @@ export default function HomeScreen() {
 
   const renderHeader = () => (
     <>
-      <Text className="text-neutral-800 text-2xl font-semibold">Breaking News</Text>
+      <Text className="text-neutral-800 text-2xl pt-2 font-semibold">Breaking News</Text>
 
       {breakingLoading ? (
         <BreakingNewsSkeleton />
@@ -79,7 +79,7 @@ export default function HomeScreen() {
         <BreakingNewsCard data={breakingNews} />
       )}
 
-      <Text className="text-neutral-800 text-2xl font-semibold mt-2 mb-2">Recommendation</Text>
+      <Text className="text-neutral-800 text-2xl font-semibold mt-3 mb-5">Recommendation</Text>
 
       {recommendationError && (
         <Text className="text-red-400 text-sm font-bold">
@@ -97,7 +97,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => <TileNewsCard data={item} />}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={listFooter}
-        ItemSeparatorComponent={() => <View className="h-6" />}
+        ItemSeparatorComponent={() => <View className="h-5" />}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={{
@@ -106,6 +106,10 @@ export default function HomeScreen() {
           paddingBottom: 130,
           flexGrow: 1,
         }}
+        removeClippedSubviews={true}// Improves performance on large lists
+        initialNumToRender={10}     // Render first 10 items initially
+        maxToRenderPerBatch={10}    // Limit rendering per batch
+        windowSize={11}             // Number of items rendered outside viewport
       />
     </View>
   );

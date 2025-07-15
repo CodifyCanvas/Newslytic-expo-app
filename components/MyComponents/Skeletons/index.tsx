@@ -71,18 +71,16 @@ export const ArticleSkeleton = () => {
   return (
     <View className="flex-1 bg-black relative">
       {/* Fake Header Image */}
-      <View className="relative h-[60vh] w-full bg-gray-700 animate-pulse">
+      <View className="relative h-[60vh] py-auto pb-4 w-full bg-gray-700 animate-pulse">
         <LinearGradient
           colors={['rgba(0,0,0,0.5)', 'transparent', 'rgba(0,0,0,0.8)']}
           style={{ position: 'absolute', height: '100%', width: '100%', justifyContent: 'flex-end' }}
         >
 
           <View className="absolute top-4 flex flex-row justify-between w-full px-4">
-            <View className="w-8 h-8 bg-gray-600 rounded-full mb-2" />
-            <View className='flex flex-row gap-1'>
-              <View className="w-8 h-8 bg-gray-600 rounded-full mb-2" />
-              <View className="w-8 h-8 bg-gray-600 rounded-full" />
-            </View>
+            <View className="w-10 h-10 bg-gray-600 rounded-full mb-2" />
+              <View className="w-10 h-10 bg-gray-600 rounded-full mb-2" />
+            
           </View>
           <View className="absolute bottom-14 w-full px-4">
             <View className="w-24 h-5 bg-gray-600 rounded-full mb-2" />

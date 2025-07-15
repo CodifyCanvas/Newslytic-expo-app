@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/Newslytic_main_logo_tranparent.png",
     "scheme": "newslytic",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
