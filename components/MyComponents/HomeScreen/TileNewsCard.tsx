@@ -3,11 +3,13 @@ import { NewsArticle } from '@/types/NewsArticle';
 import { formatDistanceToNow } from 'date-fns';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 
 type TileNewsCardProps = {
   data: NewsArticle; // ✅ FIX: Accept a single NewsArticle, not an array
 };
+
+const plateform = Platform.OS;
 
 const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
   const router = useRouter(); // ✅ FIX: Use useRouter from expo-router
@@ -42,7 +44,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
       {/* Text Section */}
       <View className="flex-1 flex gap-2 px-2 pt-0 justify-between">
         <Text
-          className="text-neutral-500 text-base font-medium"
+          className="text-neutral-500 text-sm font-medium"
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -50,7 +52,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
         </Text>
 
         <Text
-          className="text-neutral-800 text-xl font-semibold"
+          className={`text-neutral-800 ${plateform === 'ios' ? 'text-xl' : 'text-base'} font-semibold`}
           numberOfLines={2}
           ellipsizeMode="tail"
         >
@@ -58,7 +60,7 @@ const TileNewsCard: React.FC<TileNewsCardProps> = ({ data }) => {
         </Text>
 
         <Text
-          className="text-neutral-500 text-base font-normal"
+          className="text-neutral-500 text-sm font-normal"
           numberOfLines={1}
           ellipsizeMode="tail"
         >

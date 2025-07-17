@@ -1,3 +1,4 @@
+import ErrorAlert from '@/components/MyComponents/error-alert';
 import BreakingNewsCard from '@/components/MyComponents/HomeScreen/BreakingNewsCard';
 import TileNewsCard from '@/components/MyComponents/HomeScreen/TileNewsCard';
 import { BreakingNewsSkeleton } from '@/components/MyComponents/Skeletons';
@@ -48,6 +49,7 @@ export default function HomeScreen() {
   );
 
   const listFooter = useMemo(() => {
+    // Show loading spinner when loading next page
     if (recommendationLoading && page > 1) {
       return (
         <View className="py-4">
@@ -55,15 +57,19 @@ export default function HomeScreen() {
         </View>
       );
     }
-    if (hasReachedEnd) {
+
+    // Don't show "No more articles" if there's an error
+    if (!recommendationError && hasReachedEnd) {
       return (
-        <Text className="text-center text-base text-gray-400 pt-4">
+        <Text className="text-center text-sm text-gray-400 pt-4">
           No more articles
         </Text>
       );
     }
+
     return null;
-  }, [recommendationLoading, hasReachedEnd, page]);
+  }, [recommendationLoading, hasReachedEnd, page, recommendationError]);
+
 
   const renderHeader = () => (
     <>
@@ -72,7 +78,7 @@ export default function HomeScreen() {
       {breakingLoading ? (
         <BreakingNewsSkeleton />
       ) : breakingError ? (
-        <Text className="text-red-400 text-sm font-bold">
+        <Text className="text-red-400 py-4 text-sm font-bold text-center">
           Error: {breakingError.message}
         </Text>
       ) : (
@@ -82,7 +88,7 @@ export default function HomeScreen() {
       <Text className="text-neutral-800 text-2xl font-semibold mt-3 mb-5">Recommendation</Text>
 
       {recommendationError && (
-        <Text className="text-red-400 text-sm font-bold">
+        <Text className="text-red-400 py-4 text-center text-sm font-bold">
           Error: {recommendationError.message}
         </Text>
       )}
@@ -91,6 +97,10 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 min-h-screen bg-light">
+      {(breakingError || recommendationError) && (
+        <ErrorAlert error={breakingError ?? recommendationError} />
+      )}
+
       <FlatList
         data={articles}
         keyExtractor={keyExtractor}

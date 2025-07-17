@@ -1,41 +1,32 @@
 import { HapticTab } from '@/components/HapticTab';
 import { Icons } from '@/constants';
 import { Colors } from '@/constants/Colors';
+import { cn } from '@/lib/utils';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
+
+
+const platform = Platform.OS
 
 // Component to render tab icon with label when focused
 const TabIcon = ({ focused, icon, activeIcon, title }: any) => {
   if (focused) {
     return (
       <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          backgroundColor: '#2b7fff',  // Active tab blue background
-          borderRadius: 25,
-          minWidth: title === 'Bookmarks' ? 110 : 80,
-          minHeight: 40,
-          marginTop: 10,
-          paddingHorizontal: 12,
-          paddingVertical: 5,
-          marginRight: title === 'Bookmarks' ? 20 : 0,
-          gap: 6,
-        }}
+        className={cn(
+          'flex flex-row w-full flex-1 bg-blue-500 min-h-12 mt-4 justify-center items-center rounded-full overflow-hidden',
+          title === 'Bookmarks' ? 'min-w-[122px] mr-5' : 'min-w-[115px]',
+          title === 'Home' && 'ml-4',
+          (title === 'Category' || title === 'Bookmarks') ? 'gap-1' : 'gap-2'
+        )}
       >
-        <Image source={activeIcon} style={{ width: 22, height: 22 }} resizeMode="contain" />
+        <Image source={activeIcon} resizeMode="contain" className='size-5' />
         <Text
-          numberOfLines={1}
-          style={{
-            color: 'white',
-            fontSize: 15,
-            fontWeight: '600',
-            lineHeight: 16,
-            textAlignVertical: 'center',
-            includeFontPadding: false,
-          }}
+          className={cn(
+            'text-white font-semibold shrink-0',
+            platform === 'ios' ? 'text-[15px]' : 'text-xs'
+          )}
         >
           {title}
         </Text>
@@ -46,30 +37,16 @@ const TabIcon = ({ focused, icon, activeIcon, title }: any) => {
   // Default tab icon when not focused
   return (
     <View
-      style={{
-        marginTop: 10,
-        borderRadius: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 8,
-      }}
+      className='mt-4 justify-center items-center flex p-2'
     >
-      <Image source={icon} style={{ width: 22, height: 22 }} resizeMode="contain" />
+      <Image source={icon} className='size-5' resizeMode="contain" />
     </View>
   );
 };
 
 // Background view for the tab bar (absolute fill)
 const TabBarBackground = () => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: '#F8F8FF',  // Ghost white background
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-    }}
-  />
+  <View className="flex-1 bg-light absolute w-full h-full" />
 );
 
 // Main tab layout component defining screens and tab bar appearance
@@ -89,10 +66,14 @@ export default function TabLayout() {
         headerTitleAlign: 'left',
         headerRight: () => (
           <TouchableOpacity
-            className="p-3 bg-icon-light rounded-full mr-5"
+            className="p-3 rounded-full mr-5 bg-icon-light"
             onPress={() => router.push('/search')}
           >
-            <Image source={Icons.search} style={{ width: 22, height: 22 }} />
+            <Image
+              source={Icons.search}
+              className="size-6"
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         ),
         tabBarButton: HapticTab, // Custom haptic feedback button wrapper
@@ -121,6 +102,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'HOME',
+          tabBarItemStyle: {
+            width: 'auto',
+          },
           tabBarActiveTintColor: '#2b7fff',
           headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
           tabBarIcon: ({ focused }) => (

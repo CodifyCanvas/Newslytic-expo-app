@@ -23,6 +23,10 @@ type GuardianNewsResult<T> = {
   totalResults: number;
 };
 
+// Base API url and key
+const baseUrl = "https://content.guardianapis.com";
+const apiKey = process.env.EXPO_PUBLIC_GUARDIAN_NEWS_API_KEY ?? '';
+
 export function useGuardianNews<T = NewsArticle[] | NewsSection[]>({
   mode = 'latest',
   id,
@@ -54,9 +58,6 @@ export function useGuardianNews<T = NewsArticle[] | NewsSection[]>({
           .filter(Boolean)
           .join(',');
 
-        // Base API url and key
-        const baseUrl = process.env.EXPO_PUBLIC_GUARDIAN_NEWS_API_URL;
-        const apiKey = process.env.EXPO_PUBLIC_GUARDIAN_NEWS_API_KEY;
 
         if (!baseUrl || !apiKey) {
           throw new Error('API URL or Key is missing in environment variables');

@@ -1,0 +1,13 @@
+{
+  "build": {
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {},
+      "env": {
+        "EXPO_PUBLIC_GUARDIAN_NEWS_API_KEY": "@EXPO_PUBLIC_GUARDIAN_NEWS_API_KEY"
+      }
+    }
+  }
+}

@@ -10,19 +10,23 @@ import {
 } from 'react-native';
 
 import TileNewsCard from '@/components/MyComponents/HomeScreen/TileNewsCard';
+import ErrorAlert from '@/components/MyComponents/error-alert'; // ✅ Import
 import { getAllBookmarks, type BookmarkArticle } from '@/lib/database';
 
 const Bookmarks = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [bookmarks, setBookmarks] = useState<BookmarkArticle[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<Error | null>(null); // ✅ Track error
 
   const fetchBookmarks = async () => {
     try {
       const data = await getAllBookmarks();
       setBookmarks(data);
-    } catch (error) {
-      console.error('Error fetching bookmarks:', error);
+      setError(null); 
+    } catch (err) {
+      console.error('Error fetching bookmarks:', err);
+      setError(err as Error); 
     }
   };
 
@@ -37,7 +41,7 @@ const Bookmarks = () => {
 
   useFocusEffect(
     useCallback(() => {
-        fetchBookmarks();
+      fetchBookmarks();
     }, [])
   );
 
@@ -66,6 +70,8 @@ const Bookmarks = () => {
 
   return (
     <View style={{ flex: 1 }} className="bg-light py-4">
+      {error && <ErrorAlert error={error} />}
+
       <View className="px-5">
         <View className="flex-row items-center justify-between rounded-full bg-icon-light px-4 mb-4">
           <TextInput
@@ -86,7 +92,7 @@ const Bookmarks = () => {
 
       {filteredBookmarks.length > 0 && (
         <View className="px-5 mb-2">
-          <Text className="text-neutral-500 text-base">
+          <Text className="text-neutral-500 text-sm">
             Total Results: {filteredBookmarks.length}
           </Text>
         </View>

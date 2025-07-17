@@ -1,6 +1,7 @@
 
 import { initDB } from '@/lib/database';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { PortalHost } from '@rn-primitives/portal';
 import { useFonts } from 'expo-font';
 import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -38,10 +39,11 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="article/[id]/page" options={{ headerShown: false }} />
-          <Stack.Screen name="category/[category]/page" options={{ headerShown: true, headerBackTitle: 'back', headerTitleStyle: { fontSize: 20  , fontWeight: 'bold' }, headerStyle: { backgroundColor: '#F8F8FF',} }} />
+          <Stack.Screen name="category/[category]/page" options={{ headerShown: true, headerBackTitle: 'back', headerTitleStyle: { fontSize: 20  , fontWeight: 'bold' }, headerStyle: { backgroundColor: '#F8F8FF',}, headerShadowVisible: false, }} />
           <Stack.Screen name="+not-found" />
         </Stack>
               <StatusBar style="dark" backgroundColor='#F8F8FF'  translucent={false}/>
+        <PortalHost />
         
       </ThemeProvider>
       </SafeAreaView>

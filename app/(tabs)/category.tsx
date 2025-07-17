@@ -4,7 +4,7 @@ import { NewsSection } from '@/types/NewsArticle';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function Category() {
   const [value, setValue] = React.useState(''); // Search input state
@@ -34,6 +34,8 @@ export default function Category() {
       category.webTitle.toLowerCase().includes(value.toLowerCase())
     )
     : data;
+
+    const plateform = Platform.OS
 
   return (
     <View style={{ flex: 1 }} className="bg-light pt-4">
@@ -68,7 +70,7 @@ export default function Category() {
           {filteredData.map((category, index) => (
             <View key={index} className="flex flex-row flex-wrap items-center gap-2 mt-2">
               <TouchableOpacity
-                className="justify-center items-center flex-row bg-tag-light rounded-full py-1 px-3"
+                className="justify-center items-center flex-row rounded-full py-1 px-3"
                 style={{ backgroundColor: '#2b7fff' }}
                 onPress={() => {
                   // Navigate to category page with category ID param
@@ -78,7 +80,7 @@ export default function Category() {
                   });
                 }}
               >
-                <Text className="text-white text-lg text-center">{category.webTitle}</Text>
+                <Text className={`text-white ${plateform === 'ios' ? 'text-lg' : 'text-sm'} text-center`}>{category.webTitle}</Text>
               </TouchableOpacity>
             </View>
           ))}
